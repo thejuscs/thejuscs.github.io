@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Website with Slides</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .slides {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+    .slide {
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .progress-bar {
+        width: 100%;
+        height: 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100; /* Ensuring progress bar is on top */
+    }
+    .progress-bar div {
+        width: calc(20% - 10px);
+        height: 100%;
+        float: left;
+        margin-right: 10px;
+        background-color: transparent;
+    }
+    .progress-bar div.segment {
+        background-color: gray;
+        border-radius: 5px;
+    }
+    .progress-bar div.white {
+        background-color: white;
+        height: 100%;
+        transition: width 3s ease;
+    }
+</style>
+</head>
+<body>
+
+<div class="progress-bar">
+    <div class="segment" id="segment1"><div class="white"></div></div>
+    <div class="segment" id="segment2"><div class="white"></div></div>
+    <div class="segment" id="segment3"><div class="white"></div></div>
+    <div class="segment" id="segment4"><div class="white"></div></div>
+    <div class="segment" id="segment5"><div class="white"></div></div>
+</div>
+
+<div class="slides">
+    <div class="slide" id="slide1">
+        <img src="https://i.imgur.com/BVPZxnZ.jpg" alt="Slide 1">
+    </div>
+    <div class="slide" id="slide2">
+        <img src="https://i.imgur.com/L8zMZXV.jpg" alt="Slide 2">
+    </div>
+    <div class="slide" id="slide3">
+        <img src="https://i.imgur.com/BVPZxnZ.jpg" alt="Slide 3">
+    </div>
+    <div class="slide" id="slide4">
+        <img src="https://i.imgur.com/L8zMZXV.jpg" alt="Slide 4">
+    </div>
+    <div class="slide" id="slide5">
+        <img src="https://i.imgur.com/BVPZxnZ.jpg" alt="Slide 5">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.slide');
+        const segments = document.querySelectorAll('.segment');
+        let currentSlide = 0;
+
+        // Show initial slide
+        slides[currentSlide].style.display = 'block';
+        updateProgressBar();
+
+        // Function to update progress bar
+        function updateProgressBar() {
+            segments.forEach((segment, index) => {
+                if (index === currentSlide) {
+                    segment.querySelector('.white').style.width = '100%';
+                } else if (index < currentSlide) {
+                    segment.querySelector('.white').style.width = '100%';
+                } else {
+                    segment.querySelector('.white').style.width = '0';
+                }
+            });
+        }
+
+        // Function to go to next slide
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                slides[currentSlide].style.display = 'none';
+                currentSlide++;
+                slides[currentSlide].style.display = 'block';
+                updateProgressBar();
+            }
+        }
+
+        // Function to go to previous slide
+        function prevSlide() {
+            if (currentSlide > 0) {
+                slides[currentSlide].style.display = 'none';
+                currentSlide--;
+                slides[currentSlide].style.display = 'block';
+                updateProgressBar();
+            }
+        }
+
+        // Event listeners for swiping on touch devices
+        let touchstartX = 0;
+        let touchendX = 0;
+        const slider = document.querySelector('.slides');
+        
+        slider.addEventListener('touchstart', function(event) {
+            touchstartX = event.changedTouches[0].screenX;
+        }, false);
+
+        slider.addEventListener('touchend', function(event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        }, false);
+
+        function handleGesture() {
+            if (touchendX < touchstartX) {
+                nextSlide();
+            }
+            if (touchendX > touchstartX) {
+                prevSlide();
+            }
+        }
+        
+        // Event listeners for tapping on left/right sides of the screen
+        document.addEventListener('click', function(event) {
+            const screenWidth = window.innerWidth;
+            const clickX = event.clientX;
+            if (clickX < screenWidth / 2) {
+                prevSlide();
+            } else {
+                nextSlide();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
