@@ -9,49 +9,63 @@
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(to bottom, #094b87, #ffcb1d);
     }
     .slides {
         width: 100%;
-        height: 100vh;
+        height: 100%;
         overflow: hidden;
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .slide {
-        width: 100%;
-        height: 100%;
+        width: 90%;
+        height: 90%;
         display: none;
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 5%;
+        left: 5%;
+        padding: 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to bottom, #094b87, #ffcb1d);
     }
     .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        background-color: white;
     }
     .progress-bar {
-        width: 100%;
+        width: 90%;
         height: 5px;
         position: absolute;
         top: 0;
-        left: 0;
         z-index: 100; /* Ensuring progress bar is on top */
+        display: flex;
+        justify-content: space-between;
     }
     .progress-bar div {
-        width: calc(25% - 10px);
+        flex-grow: 1;
         height: 100%;
-        float: left;
-        margin-right: 10px;
-        background-color: transparent;
-    }
-    .progress-bar div.segment {
         background-color: gray;
         border-radius: 5px;
+        margin: 0 5px;
+        overflow: hidden;
     }
     .progress-bar div.white {
         background-color: white;
         height: 100%;
         transition: width 3s ease;
+        width: 0;
     }
 </style>
 </head>
@@ -86,7 +100,7 @@
         let currentSlide = 0;
 
         // Show initial slide
-        slides[currentSlide].style.display = 'block';
+        slides[currentSlide].style.display = 'flex';
         updateProgressBar();
 
         // Function to update progress bar
@@ -107,7 +121,7 @@
             if (currentSlide < slides.length - 1) {
                 slides[currentSlide].style.display = 'none';
                 currentSlide++;
-                slides[currentSlide].style.display = 'block';
+                slides[currentSlide].style.display = 'flex';
                 updateProgressBar();
             }
         }
@@ -117,7 +131,7 @@
             if (currentSlide > 0) {
                 slides[currentSlide].style.display = 'none';
                 currentSlide--;
-                slides[currentSlide].style.display = 'block';
+                slides[currentSlide].style.display = 'flex';
                 updateProgressBar();
             }
         }
